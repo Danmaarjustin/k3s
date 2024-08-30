@@ -55,4 +55,11 @@ apply -f gitea-ingress.yaml
 Ctrl+c and Ctrl+v:
 ```bash
 kubectl get pods -n gitea
-kubectl exec -it -n gitea gitea-66b98969bb-6ntgq -- gitea admin user change-password -u gitea_admin -p changeme
+```
+
+Execute the following command for operation pod:
+
+Ctrl+c and Ctrl+v:
+```bash
+kubectl exec -it -n gitea <PASTE-GITEA-PODNAME-HERE> -- gitea admin user change-password -u gitea_admin -p changeme
+```
