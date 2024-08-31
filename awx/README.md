@@ -17,7 +17,7 @@ Install the AWX operator:
 
 Ctrl+c and Ctrl+v
 ```bash
-helm install awx-operator awx-operator-2.19.1.tgz
+helm install awx-operator awx-operator-2.19.1.tgz --namespace=awx
 ```
 
 #Create certs and create kubernetes secret with them:
