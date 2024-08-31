@@ -27,7 +27,7 @@ curl -sfL https://get.k3s.io | sh -s - server \
 --cluster-init --write-kubeconfig-mode 644
 ```
 
-When you are using a proxy/loadbalncer in front do, kan je ook doen door NAT regel te maken op je router/fireall, aangezien verkeer daar toch altijd al doorheen gaat:
+When you are using a proxy/loadbalncer in front do, can be done by creating a NAT rule on router/fireall, because this there already.
 
 Copy and paste to all master nodes do:
 
