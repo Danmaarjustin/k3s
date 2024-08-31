@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: awx-ingress
+  namespace: awx
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    # Remove the middleware annotation if not used
+    # traefik.ingress.kubernetes.io/router.middlewares: "awx@kubernetescrd"
+spec:
+  tls:
+  - hosts:
+    - awx.k3s.internal
+    secretName: awx-tls-secret
+  rules:
+  - host: awx.k3s.internal
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: awx-service
+            port:
+              number: 80

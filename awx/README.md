@@ -1,84 +1,63 @@
-########################## AWX
+#Deploy AWX
 
-cd /home/sysadmin/k3s/awx
+Create dir(No need of you cloned the repo) and make namespace:
+
+```bash
+cd ./k3s/awx
 mkdir installer
 cd installer
-k create namespace awx
+```
+
+Create namespace awx:
+```bash
+kubectl create namespace awx
+```
+
+Install the AWX operator:
+
+Ctrl+c and Ctrl+v
+```bash
 helm install awx-operator awx-operator-2.19.1.tgz
+```
 
+#Create certs and create kubernetes secret with them:
+
+```bash
 cd ..
-
-cat <<EOF > awx-cr.yaml
-apiVersion: awx.ansible.com/v1beta1
-kind: AWX
-metadata:
-  name: awx
-  namespace: awx
-spec:
-  service_type: ClusterIP
-  ingress_type: ingress
-  hostname: awx.k3s.internal
-EOF
-
-cat <<EOF > awx-ingress.yaml
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: awx-ingress
-  namespace: awx
-  annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
-    traefik.ingress.kubernetes.io/router.tls: "true"
-    # Remove the middleware annotation if not used
-    # traefik.ingress.kubernetes.io/router.middlewares: "awx@kubernetescrd"
-spec:
-  tls:
-  - hosts:
-    - awx.k3s.internal
-    secretName: awx-tls-secret
-  rules:
-  - host: awx.k3s.internal
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: awx-service
-            port:
-              number: 80
-EOF
-
-cat <<EOF > awx-service.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: awx-service
-  namespace: awx
-spec:
-  type: ClusterIP
-  ports:
-  - port: 80
-    targetPort: 8052
-  selector:
-    app.kubernetes.io/component: awx
-    app.kubernetes.io/name: awx-web
-EOF
-
-
 mkdir certs
 cd certs
 kubectl exec -it vault-0 -n vault -- vault write pki/issue/k3s common_name="awx.k3s.internal" alt_names="awx.k3s.internal" ttl="168h" > cert_output.json
-
 cat cert_output.json
+```
+
+Copy and paste the certificate and private-key output of the cert_output.json into the correct files:
+key in private_key.pem
+cert in certificate.pem
+
+Create secret based on input:
+
+Ctrl+c and Ctrl+v:
+```bash
 kubectl create secret tls awx-k3s-internal \
  --cert=certificate.pem \
  --key=private_key.pem \
  -n awx
+```
 
-cd ..
+#Apply custom resource, service and ingress for awx:
 
-When all containers are ready and deployed:
+```bash
+cd ./k3s/awx/
+kubectl apply -f awx-cr.yaml
+kubectl apply -f awx-service.yaml
+kubectl apply -f awx-ingress.yaml
+```
+When all containers are ready and deployed(This can take a couple of minutes):
 
+Fetch password for innitial login:
+
+Ctrl+c and Ctrl+v:
+```bash
 kubectl get secret -n awx awx-admin-password -o jsonpath="{.data.password}" | base64 --decode
-to get the admin password for innitial login
+```
+Username: admin
