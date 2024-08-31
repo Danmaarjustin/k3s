@@ -18,11 +18,25 @@ Reboot the system!
 
 ##Instal k3s:
 
-#On first master node:
+#On first master node When no Proxy in front of cluster:
 
 Ctrl+c and Ctrl+v:
 ```bash
-curl -sfL https://get.k3s.io | sh -s - server --cluster-init --write-kubeconfig-mode 644
+curl -sfL https://get.k3s.io | sh -s - server \
+--token=<MAAK-HIER-IETS-LEUKS-VAN>
+--cluster-init --write-kubeconfig-mode 644
+```
+
+When you are using a proxy/loadbalncer in front do, kan je ook doen door NAT regel te maken op je router/fireall, aangezien verkeer daar toch altijd al doorheen gaat:
+
+Copy and paste to all master nodes do:
+
+Ctrl+c and Ctrl+v:
+```bash
+curl -sfL https://get.k3s.io | sh -s - server \
+--token=<MAAK-HIER-IETS-LEUKS-VAN>
+--tls-san <VIP-ADDRESS> --tls-san <VIP-IP-ADDRESS>
+--cluster-init
 ```
 Get token:
 Ctrl+c and Ctrl+v:
