@@ -53,7 +53,10 @@ K10acf961dac4ff6d4968497aced3f225d4663aad146bf313db746c0a816ed59418::server:391b
 On the  2 other master nodes:
 Ctrl+c and Ctrl+v:
 ```bash
-curl -sfL https://get.k3s.io | K3S_URL=https://<master1-ip>:6443 K3S_TOKEN=<your-token> sh -
+curl -sfL https://get.k3s.io | sh -s - server \
+--server https://<FIRST_MASTER_IP>:6443 \
+--token <TOKEN> \
+--write-kubeconfig-mode 644
 ```
 
 When its finished installing its automaticly started.
