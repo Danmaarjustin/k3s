@@ -23,7 +23,7 @@ Reboot the system!
 Ctrl+c and Ctrl+v:
 ```bash
 curl -sfL https://get.k3s.io | sh -s - server \
---token=<MAAK-HIER-IETS-LEUKS-VAN>
+--token=<MAAK-HIER-IETS-LEUKS-VAN> \
 --cluster-init --write-kubeconfig-mode 644
 ```
 
@@ -34,8 +34,8 @@ Copy and paste to all master nodes do:
 Ctrl+c and Ctrl+v:
 ```bash
 curl -sfL https://get.k3s.io | sh -s - server \
---token=<MAAK-HIER-IETS-LEUKS-VAN>
---tls-san <VIP-ADDRESS> --tls-san <VIP-IP-ADDRESS>
+--token=<MAAK-HIER-IETS-LEUKS-VAN> \
+--tls-san <VIP-ADDRESS> --tls-san <VIP-IP-ADDRESS> \
 --cluster-init
 ```
 Get token:
