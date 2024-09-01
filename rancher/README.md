@@ -7,7 +7,7 @@ Add directorys
 Ctrl+c and Ctrl+v:
 ```bash
 mkdir ./rancher/certs
-cd certs
+cd ./rancher/certs
 touch certificate.pem private_key.pem ca.crt
 ```
 
