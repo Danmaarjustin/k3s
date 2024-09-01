@@ -47,7 +47,7 @@ Apply gitea ingress:
 
 Ctrl+c and Ctrl+v:
 ```bash
-apply -f gitea-ingress.yaml
+kubectl apply -f gitea-ingress.yaml
 ```
 
 #Get pod information to change password via pod cli:
