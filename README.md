@@ -137,13 +137,13 @@ sudo apt-get update
 sudo apt-get install helm
 ```
 
-#Create serviceaccount and clusterrolebinding for helm in you're k3s cluster:
+#Create serviceaccount and clusterrolebinding for helm in you're k3s cluster: ####NEEDS A BIT OF CHANGE leave it for now
 
-Ctrl+c and Ctrl+v:
-```bash
-kubectl create serviceaccount --namespace kube-system
-kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin 
-```
+#Ctrl+c and Ctrl+v:
+#```bash
+#kubectl create serviceaccount --namespace kube-system
+#kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin 
+#```
 
 Innitialize helm:
 
@@ -188,6 +188,7 @@ su
 apt install sudo curl git gpg ca-certificates apt-transport-https gnupg nfs-common -y
 hostnamectl set-hostname k-worker1
 echo k-worker1 > /etc/hostname
+vi /etc/hosts
 /usr/sbin/reboot now
 ```
 When its up and running:
